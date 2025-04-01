@@ -35,7 +35,7 @@
     // @todo Find a way to embed this so it works offline
     //       and prevent global leakage
     // @ts-ignore I know it exists so shut it TS
-    const {LuaFactory} = await import('https://cdn.jsdelivr.net/npm/wasmoon@1.16.0/+esm');
+    const {LuaFactory} = await import('https://cdn.jsdelivr.net/npm/wasmoon/+esm');
     const factory = new LuaFactory();
     let lua = await factory.createEngine();
   
@@ -144,18 +144,16 @@
               },
             },
             {
-              opcode: 'linkedFunctionCallback',
-              blockType: BlockType.HAT,
-              text: 'function [NAME] args [DATA] ', // please do not break the blocks array again - Mubi
-               arguments: {
-                NAME: {
-                  type: ArgumentType.STRING,
-                },
-                DATA: {
-                  // this will be a regenerating reporter onee would hope <3
-                  type: null
+              opcode: 'no_op_0',
+              blockType: BlockType.COMMAND,
+              text: 'run lua [CODE]',
+              arguments: {
+                CODE: {
+                  type: MoreFields ? 'TextareaInputInline' : ArgumentType.STRING,
+                  defaultValue: `--data.set("variable", "value", is a list?) \ndata.set("my variable", "It works!", false) \nprint(data.get("my variable"))`,
                 },
               },
+              func: 'runLua',
             },
             {
               opcode: 'no_op_1',
@@ -171,18 +169,6 @@
               outputShape: 3,
             },
             '---',
-            {
-                opcode: 'no_op_0',
-                blockType: BlockType.COMMAND,
-                text: 'run lua [CODE]',
-                arguments: {
-                  CODE: {
-                    type: MoreFields ? 'TextareaInputInline' : ArgumentType.STRING,
-                    defaultValue: `--data.set("variable", "value", is a list?) \ndata.set("my variable", "It works!", false) \nprint(data.get("my variable"))`,
-                  },
-                },
-                func: 'runLua',
-              },
               {
                 opcode: 'no_op_4',
                 blockType: Scratch.BlockType.REPORTER,
@@ -196,6 +182,21 @@
                 },
                 allowDropAnywhere: true,
                 func: 'getLuaVar',
+              },
+              '---',
+              {
+                opcode: 'linkedFunctionCallback',
+                blockType: BlockType.HAT,
+                text: 'function [NAME] args [DATA] ', // please do not break the blocks array again - Mubi
+                 arguments: {
+                  NAME: {
+                    type: ArgumentType.STRING,
+                  },
+                  DATA: {
+                    // this will be a regenerating reporter onee would hope <3
+                    type: null
+                  },
+                },
               },
           ],
           customFieldTypes: extension.customFieldTypes,
