@@ -13,6 +13,8 @@
       throw new Error('"Dragonian Lua" must be ran unsandboxed.');
     }
   
+    const menuIconURI = "data:image/svg+xml;base64,PHN2ZyB2ZXJzaW9uPSIxLjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9Ijk0NyIgaGVpZ2h0PSI5NDciIHZpZXdCb3g9IjAgMCA5NDcgOTQ3IiB4bWw6c3BhY2U9InByZXNlcnZlIj48cGF0aCBmaWxsPSJuYXZ5IiBkPSJNODM1LjUgNDczLjZjMC0xOTkuOC0xNjIuMi0zNjItMzYyLTM2MnMtMzYyIDE2Mi4yLTM2MiAzNjIgMTYyLjIgMzYyIDM2MiAzNjIgMzYyLTE2Mi4yIDM2Mi0zNjIiLz48cGF0aCBmaWxsPSIjRkZGIiBkPSJNNzI5LjUgMzIzLjZjMC01OC41LTQ3LjUtMTA2LTEwNi0xMDZzLTEwNiA0Ny41LTEwNiAxMDYgNDcuNSAxMDYgMTA2IDEwNiAxMDYtNDcuNSAxMDYtMTA2Ii8+PHBhdGggZmlsbD0ibmF2eSIgZD0iTTk0MS41IDExMS41YzAtNTguNS00Ny41LTEwNi0xMDYtMTA2cy0xMDYgNDcuNS0xMDYgMTA2IDQ3LjUgMTA2IDEwNiAxMDYgMTA2LTQ3LjQgMTA2LTEwNiIvPjxwYXRoIGQ9Ik0yNTguMSA2MjcuOGgxMTcuM3YyNi43SDIyNy44VjQxN2gzMC4zem0yNTcuNCAyNi43di0yMy44Yy0xNiAyMi41LTMxLjkgMzEuMy01NyAzMS4zLTMzLjIgMC01NC40LTE4LjItNTQuNC00Ni42VjQ4My44aDI3djEyMC45YzAgMjAuNSAxMy43IDMzLjYgMzUuMiAzMy42IDI4LjMgMCA0Ni42LTIyLjggNDYuNi01Ny43di05Ni44aDI3djE3MC43em0yMjIuOSA0LjZjLTguOCAyLjMtMTMgMi45LTE4LjYgMi45LTE3LjYgMC0yNi4xLTcuOC0yOC0yNS4xLTE5LjIgMTcuNi0zNi41IDI1LjEtNTggMjUuMS0zNC41IDAtNTYtMTkuNS01Ni01MC41IDAtMjIuMiAxMC4xLTM3LjUgMzAtNDUuNiAxMC40LTQuMiAxNi4zLTUuNSA1NC43LTEwLjQgMjEuNS0yLjYgMjguMy03LjUgMjguMy0xOC45di03LjJjMC0xNi4zLTEzLjctMjUuNC0zOC4xLTI1LjQtMjUuNCAwLTM3LjggOS40LTQwLjEgMzAuM2gtMjcuNGMuNy0xNi45IDMuOS0yNi43IDExLjctMzUuNSAxMS40LTEyLjcgMzEuOS0xOS45IDU2LjctMTkuOSA0MiAwIDY0LjIgMTYuMyA2NC4yIDQ2LjZ2MTAwLjRjMCA4LjUgNS4yIDEzLjQgMTQuNyAxMy40IDEuNiAwIDIuOSAwIDUuOS0uN3ptLTQ3LjYtODljLTkuMSA0LjItMTUgNS41LTQzLjcgOS40LTI5IDQuMi00MS4xIDEzLjQtNDEuMSAzMS4zIDAgMTcuMyAxMi40IDI3LjQgMzMuNiAyNy40IDE2IDAgMjkuMy01LjIgNDAuNC0xNS4zIDguMS03LjUgMTAuOC0xMyAxMC44LTIyLjJ6IiBmaWxsPSIjRkZGIi8+PHBhdGggZmlsbD0ibm9uZSIgc3Ryb2tlPSJncmF5IiBzdHJva2Utd2lkdGg9IjEwLjg2MSIgc3Ryb2tlLW1pdGVybGltaXQ9IjEwIiBzdHJva2UtZGFzaGFycmF5PSI0MC44NDciIGQ9Ik04OTAuNiAyNjFjMzMuNSA2NS44IDUxIDEzOC42IDUxIDIxMi41IDAgMjU4LjQtMjA5LjcgNDY4LjEtNDY4LjEgNDY4LjFTNS40IDczMS45IDUuNCA0NzMuNSAyMTUuMSA1LjQgNDczLjUgNS40YzgzLjEgMCAxNjQuNiAyMi4xIDIzNi4yIDYzLjkiLz48L3N2Zz4=";
+
     const {Cast, BlockType, ArgumentType, vm} = Scratch,
       {runtime} = vm;
   
@@ -126,8 +128,10 @@
         return {
           id: 'DragonianLua',
           name: 'Lua',
-          color1: '#0b0080',
-          color2: '#00006b',
+          color1: '#000080',
+          color2: '#ffffff',
+          color3: '#808080',
+          menuIconURI,
           blocks: [
             {
               opcode: 'disableEnableInit',
@@ -154,7 +158,7 @@
               },
             },
             {
-              opcode: 'no_op_0',
+              opcode: 'no_op_1',
               blockType: BlockType.REPORTER,
               text: 'run lua [CODE]',
               arguments: {
@@ -168,7 +172,7 @@
             },
             '---',
             {
-                opcode: 'no_op_1',
+                opcode: 'no_op_0',
                 blockType: BlockType.COMMAND,
                 text: 'run lua [CODE]',
                 arguments: {
@@ -181,27 +185,17 @@
               },
               {
                 opcode: 'no_op_4',
-                blockType: BlockType.COMMAND,
-                text: 'run lua [CODE]',
+                blockType: Scratch.BlockType.REPORTER,
+                text: 'variable [VAR]',
+                outputShape: Scratch.extensions.isPenguinmod ? 5 : 3,
+                blockShape: Scratch.extensions.isPenguinmod ? 5 : 3,
                 arguments: {
-                  CODE: {
-                    type: MoreFields ? 'TextareaInputInline' : ArgumentType.STRING,
-                    defaultValue: `--data.set("variable", "value", is a list?) \ndata.set("my variable", "It works!", false) \nprint(data.get("my variable"))`,
+                  VAR: {
+                    type: ArgumentType.STRING,
                   },
                 },
-                func: 'runLua',
-              },
-              {
-                opcode: 'no_op_5',
-                blockType: BlockType.COMMAND,
-                text: 'run lua [CODE]',
-                arguments: {
-                  CODE: {
-                    type: MoreFields ? 'TextareaInputInline' : ArgumentType.STRING,
-                    defaultValue: `--data.set("variable", "value", is a list?) \ndata.set("my variable", "It works!", false) \nprint(data.get("my variable"))`,
-                  },
-                },
-                func: 'runLua',
+                allowDropAnywhere: true,
+                func: 'getLuaVar',
               },
           ],
           customFieldTypes: extension.customFieldTypes,
@@ -236,6 +230,12 @@
         if (this.DEBUG) console.trace(`runBlock_JS | Ran ${EXT}_${OPCODE} and got:\n`, formatRes(res));
         return res; 
       }
+      async getLuaVar(args) {
+        const luaVar = lua.global.get(args.VAR);
+        return (typeof args.VAR === 'number' || luaVar instanceof Error || luaVar == null) ? "" : luaVar;
+    }
+    
+    
   
       _util(util) {
         return this.preservedUtil || util;

@@ -178,8 +178,9 @@
   
     async getluavar(args) {
         const luaVar = lua.global.get(args.VAR);
-        return luaVar !== undefined && luaVar !== null ? luaVar : "";
+        return (luaVar instanceof Error || luaVar == null) ? "" : luaVar;
     }
+    
 
     async callfunc(args) {
 
