@@ -168,17 +168,41 @@
             },
             '---',
             {
-              opcode: 'no_op_1',
-              blockType: BlockType.COMMAND,
-              text: 'run lua [CODE]',
-              arguments: {
-                CODE: {
-                  type: MoreFields ? 'TextareaInputInline' : ArgumentType.STRING,
-                  defaultValue: `--data.set("variable", "value", is a list?) \ndata.set("my variable", "It works!", false) \nprint(data.get("my variable"))`,
+                opcode: 'no_op_1',
+                blockType: BlockType.COMMAND,
+                text: 'run lua [CODE]',
+                arguments: {
+                  CODE: {
+                    type: MoreFields ? 'TextareaInputInline' : ArgumentType.STRING,
+                    defaultValue: `--data.set("variable", "value", is a list?) \ndata.set("my variable", "It works!", false) \nprint(data.get("my variable"))`,
+                  },
                 },
+                func: 'runLua',
               },
-              func: 'runLua',
-            },
+              {
+                opcode: 'no_op_4',
+                blockType: BlockType.COMMAND,
+                text: 'run lua [CODE]',
+                arguments: {
+                  CODE: {
+                    type: MoreFields ? 'TextareaInputInline' : ArgumentType.STRING,
+                    defaultValue: `--data.set("variable", "value", is a list?) \ndata.set("my variable", "It works!", false) \nprint(data.get("my variable"))`,
+                  },
+                },
+                func: 'runLua',
+              },
+              {
+                opcode: 'no_op_5',
+                blockType: BlockType.COMMAND,
+                text: 'run lua [CODE]',
+                arguments: {
+                  CODE: {
+                    type: MoreFields ? 'TextareaInputInline' : ArgumentType.STRING,
+                    defaultValue: `--data.set("variable", "value", is a list?) \ndata.set("my variable", "It works!", false) \nprint(data.get("my variable"))`,
+                  },
+                },
+                func: 'runLua',
+              },
           ],
           customFieldTypes: extension.customFieldTypes,
         };
@@ -189,6 +213,8 @@
       no_op_1() {}
       no_op_2() {}
       no_op_3() {}
+      no_op_4() {}
+      no_op_5() {}
   
       _extensions() {
         const arr = Array.from(vm.extensionManager._loadedExtensions.keys());
