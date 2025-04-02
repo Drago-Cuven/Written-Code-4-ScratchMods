@@ -38,6 +38,7 @@
     const {LuaFactory} = await import('https://cdn.jsdelivr.net/npm/wasmoon/+esm');
     const factory = new LuaFactory();
     let lua = await factory.createEngine();
+    let luaon = true;
   
     // Utility functions
     const formatRes = (res) => {
@@ -213,7 +214,7 @@
               },
           ],
           menus: {
-            luaVMdo: { acceptReporters: true, items: ["On", "Off", "Reset"] },
+            luaVMdo: { acceptReporters: true, items: ["Stop", "Start", "Reset"] },
             },
           customFieldTypes: extension.customFieldTypes,
         };
@@ -271,17 +272,26 @@
         switch(args.ACTION){
           case 'Stop':
             lua.global.close();
+            luaon = false;
             break;
           case 'Start':
-            if (!lua){
-            let lua = await factory.createEngine();
+            if (luaon == false){
+              await resetLua();
+            luaon = true;
         }
             break;
           default:
-            resetLua();
+            luaon = false;
+            await resetLua();
+            luaon = true;
             break;
         }
       }
+
+      getprojFuncArgs() {
+        return lua.global.get('args') || "";
+      }
+
       setupClasses() {
         const MathUtil = {
           PI: Math.PI,
@@ -575,15 +585,11 @@
         this.DO_INIT = Cast.toBoolean(INIT);
       }
       async runLua({CODE}, util) {
-        console.log("test")
-        if (this.DO_INIT) this.initLuaCommands(util);
-        console.log("test2")
-        // Command blocks don't show a visual report
-        try {
-          console.log("test3")
+        if (luaon == false) {
+          return "";
+        } else {
+          if (this.DO_INIT) this.initLuaCommands(util);
           return await lua.doString(Cast.toString(CODE));
-        } finally {
-          // lua.global.close();
         }
       }
     }
