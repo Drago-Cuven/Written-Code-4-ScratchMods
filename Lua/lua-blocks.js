@@ -202,7 +202,7 @@
               {
                 opcode: 'linkedFunctionCallback',
                 blockType: BlockType.HAT,
-                text: 'on projFunc()', 
+                text: 'on projFunc()',
                 isEdgeActivated: false,
               },
               {
