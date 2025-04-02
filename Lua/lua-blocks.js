@@ -37,8 +37,9 @@
     // @ts-ignore I know it exists so shut it TS
     const {LuaFactory} = await import('https://cdn.jsdelivr.net/npm/wasmoon/+esm');
     const factory = new LuaFactory();
+    let luaon = false;
     let lua = await factory.createEngine();
-    let luaon = true;
+    luaon = true;
   
     const pfuncargs = Symbol("pfuncargs");
 
@@ -338,7 +339,6 @@
           } else {
             return setargs;
           }
-
         }
      }
 
