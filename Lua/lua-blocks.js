@@ -207,7 +207,7 @@
               {
                 opcode: 'linkedFunctionCallback',
                 blockType: BlockType.EVENT,
-                text: 'on funcCall()',
+                text: 'on projfunc()',
                 isEdgeActivated: false,
               },
               {
@@ -216,7 +216,7 @@
                 text: 'arguments',
                 allowDropAnywhere: true,
                 disableMonitor: true,
-                func: 'getfuncCallArgs',
+                func: 'getprojfuncArgs',
               },
           ],
           menus: {
@@ -297,7 +297,7 @@
         }
       }
 
-      getfuncCallArgs() {
+      getprojfuncArgs() {
         return lua.global.get('args') || "";
       }
 
@@ -391,7 +391,7 @@
         const ref = (fn, fnn) => ((...args) => (this.Functions[fn || fnn](util, ...args)));
         const bindHere = fn => fn.bind(this);
 
-        // Setting  funcCall
+        // Setting  projfunc
         lua.global.set('projfunc', () => util.startHats("Drago0znzwLua_linkedFunctionCallback"));
 
         // Setting up the target
