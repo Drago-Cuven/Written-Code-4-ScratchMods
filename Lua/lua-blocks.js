@@ -40,6 +40,8 @@
     let lua = await factory.createEngine();
     let luaon = true;
   
+    const pfuncargs = Symbol("pfuncargs");
+
     // Utility functions
     const formatRes = (res) => {
       if (res === '') return '[empty String]';
@@ -207,21 +209,43 @@
               {
                 opcode: 'linkedFunctionCallback',
                 blockType: BlockType.EVENT,
-                text: 'on projfunc()',
+                text: 'on pfunc()',
                 isEdgeActivated: false,
                 shouldRestartExistingThreads: true
               },
               {
                 opcode: 'no_op_5',
                 blockType: Scratch.BlockType.REPORTER,
-                text: 'arguments',
+                text: '[TYPE] arguments',
+                arguments: {
+                  TYPE: {
+                    type: ArgumentType.STRING,
+                    defaultValue: "pure",
+                    menu: "argreptypes",
+                  },
+                },
                 allowDropAnywhere: true,
                 disableMonitor: true,
-                func: 'getprojfuncArgs',
+                func: 'getpfuncArgs',
+              },
+              {
+                opcode: 'no_op_6',
+                blockType: Scratch.BlockType.REPORTER,
+                text: 'argument [NUM]',
+                arguments: {
+                  NUM: {
+                    type: ArgumentType.NUMBER,
+                    defaultValue: 1,
+                  },
+                },
+                allowDropAnywhere: true,
+                disableMonitor: true,
+                func: 'getpfuncArgsnum',
               },
           ],
           menus: {
-            luaVMdo: { acceptReporters: true, items: ["Stop", "Start", "Reset"] },
+            luaVMdo: { acceptReporters: true, items: ["stop", "start", "reset"] },
+            argreptypes: { acceptReporters: true, items: ["pure", "stringified"] }
             },
           customFieldTypes: extension.customFieldTypes,
         };
@@ -237,6 +261,7 @@
       no_op_3() {}
       no_op_4() {}
       no_op_5() {}
+      no_op_6() {}
   
       _extensions() {
         const arr = Array.from(vm.extensionManager._loadedExtensions.keys());
@@ -280,11 +305,11 @@
 
       async luaVMdo(args) {
         switch(args.ACTION){
-          case 'Stop':
+          case 'stop':
             lua.global.close();
             luaon = false;
             break;
-          case 'Start':
+          case 'start':
             if (luaon == false){
               await resetLua();
             luaon = true;
@@ -298,9 +323,37 @@
         }
       }
 
-      getprojfuncArgs() {
-        return lua.global.get('args') || "";
+      getpfuncArgs(args, util) {
+        if (!Object.prototype.hasOwnProperty.call(util.thread, pfuncargs)) {
+          return "";
+        } else {
+          let setargs = util.thread[pfuncargs];
+
+          const CAI = arr => arr.map(item => 
+            typeof item === 'number' ? item.toString() : item
+          );
+
+          if (args.TYPE = "stringified") {
+            return CAI(setargs);
+          } else {
+            return setargs;
+          }
+
+        }
+     }
+
+     getpfuncArgsnum(args, util) {
+      if (!Object.prototype.hasOwnProperty.call(util.thread, pfuncargs)) {
+        return "";
+      } else {
+        let setargs = util.thread[pfuncargs];
+        if (args.NUM < 1 || args.NUM > setargs.length) {
+          return "";
+        } else {
+          return setargs[args.NUM - 1];
+        }
       }
+   }
 
       setupClasses() {
         const MathUtil = {
@@ -392,8 +445,14 @@
         const ref = (fn, fnn) => ((...args) => (this.Functions[fn || fnn](util, ...args)));
         const bindHere = fn => fn.bind(this);
 
-        // Setting  projfunc
-        lua.global.set('projfunc', () => util.startHats("Drago0znzwLua_linkedFunctionCallback"));
+        // Setting  pfunc
+        lua.global.set('pfunc', (...args) => {
+          let argsString = args;
+          let pfuncthread = [];
+          pfuncthread = util.startHats("Drago0znzwLua_linkedFunctionCallback");
+          for (const thread of pfuncthread) thread[pfuncargs] = argsString;
+          return pfuncthread;
+        });
 
         // Setting up the target
         lua.global.set('sprite', {
