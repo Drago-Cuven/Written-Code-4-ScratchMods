@@ -209,6 +209,7 @@
                 blockType: BlockType.EVENT,
                 text: 'on projfunc()',
                 isEdgeActivated: false,
+                shouldRestartExistingThreads: true
               },
               {
                 opcode: 'no_op_5',
