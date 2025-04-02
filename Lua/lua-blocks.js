@@ -126,7 +126,7 @@
       getInfo() {
         const MoreFields = extension.MoreFields;
         return {
-          id: 'DragonianLua',
+          id: 'Drago0znzwLua',
           name: 'Lua',
           color1: '#000080',
           color2: '#ffffff',
@@ -142,6 +142,19 @@
                   type: ArgumentType.BOOLEAN,
                 },
               },
+            },
+            {
+              opcode: 'luaVMdo',
+              blockType: BlockType.COMMAND,
+              text: 'lua vm [ACTION]',
+              arguments: {
+                ACTION: {
+                  type: ArgumentType.STRING,
+                  menu: `luaVMdo`,
+                  defaultValue: `Stop`,
+                },
+              },
+              func: 'luaVMdo',
             },
             {
               opcode: 'no_op_0',
@@ -184,21 +197,24 @@
                 func: 'getLuaVar',
               },
               '---',
+              //here
               {
                 opcode: 'linkedFunctionCallback',
                 blockType: BlockType.HAT,
-                text: 'function [NAME] args [DATA] ', // please do not break the blocks array again - Mubi
-                 arguments: {
-                  NAME: {
-                    type: ArgumentType.STRING,
-                  },
-                  DATA: {
-                    // this will be a regenerating reporter onee would hope <3
-                    type: null
-                  },
-                },
+                text: 'on projFunc()', 
+                isEdgeActivated: false,
+              },
+              {
+                opcode: 'no_op_5',
+                blockType: Scratch.BlockType.REPORTER,
+                text: 'arguments',
+                allowDropAnywhere: true,
+                func: 'getprojFuncArgs',
               },
           ],
+          menus: {
+            luaVMdo: { acceptReporters: true, items: ["On", "Off", "Reset"] },
+            },
           customFieldTypes: extension.customFieldTypes,
         };
       }
@@ -236,7 +252,9 @@
         return (typeof args.VAR === 'number' || luaVar instanceof Error || luaVar == null) ? "" : luaVar;
     }
     
-    
+    async linkedFunctionCallback(args) {
+
+    }
   
       _util(util) {
         return this.preservedUtil || util;
@@ -247,6 +265,22 @@
           thread: runtime.threads[0],
           stackFrame: {},
         };
+      }
+
+      async luaVMdo(args) {
+        switch(args.ACTION){
+          case 'Stop':
+            lua.global.close();
+            break;
+          case 'Start':
+            if (!lua){
+            let lua = await factory.createEngine();
+        }
+            break;
+          default:
+            resetLua();
+            break;
+        }
       }
       setupClasses() {
         const MathUtil = {
@@ -553,9 +587,10 @@
         }
       }
     }
-  
-    runtime.on('PROJECT_START', () => resetLua());
+  /*
+    runtime.on('PROJECT_START', () => resetLua ());
     runtime.on('PROJECT_STOP_ALL', () => resetLua());
+    */
     Scratch.extensions.register((runtime.ext_secret_dragonianlua = new extension()));
     // @ts-ignore Don't care!
   })(Scratch);
