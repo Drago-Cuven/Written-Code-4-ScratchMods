@@ -130,10 +130,15 @@
           id: 'Drago0znzwLua',
           name: 'Lua',
           color1: '#000080',
-          color2: '#ffffff',
-          color3: '#808080',
+          color2: '#808080',
+          color3: '#ffffff',
           menuIconURI,
           blocks: [
+            {
+              opcode: 'VMState',
+              blockType: BlockType.BOOLEAN,
+              text: 'is lua on?',
+            },
             {
               opcode: 'disableEnableInit',
               blockType: BlockType.COMMAND,
@@ -201,8 +206,8 @@
               //here
               {
                 opcode: 'linkedFunctionCallback',
-                blockType: BlockType.HAT,
-                text: 'on projFunc()',
+                blockType: BlockType.EVENT,
+                text: 'on funcCall()',
                 isEdgeActivated: false,
               },
               {
@@ -210,7 +215,8 @@
                 blockType: Scratch.BlockType.REPORTER,
                 text: 'arguments',
                 allowDropAnywhere: true,
-                func: 'getprojFuncArgs',
+                disableMonitor: true,
+                func: 'getfuncCallArgs',
               },
           ],
           menus: {
@@ -221,6 +227,9 @@
       }
   
       // no-op functions ignore these and leave them blank
+      VMState() {
+        return luaon;
+      }
       no_op_0() {}
       no_op_1() {}
       no_op_2() {}
@@ -288,7 +297,7 @@
         }
       }
 
-      getprojFuncArgs() {
+      getfuncCallArgs() {
         return lua.global.get('args') || "";
       }
 
@@ -381,7 +390,10 @@
         // @ts-expect-error I know it "could" be undefined but it wont be
         const ref = (fn, fnn) => ((...args) => (this.Functions[fn || fnn](util, ...args)));
         const bindHere = fn => fn.bind(this);
-  
+
+        // Setting  funcCall
+        lua.global.set('projfunc', () => util.startHats("Drago0znzwLua_linkedFunctionCallback"));
+
         // Setting up the target
         lua.global.set('sprite', {
           switch: (name) => runtime.setEditingTarget(runtime.getSpriteTargetByName(Cast.toString(name)) || runtime.getTargetForStage()),
