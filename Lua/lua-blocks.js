@@ -386,7 +386,7 @@
           looks_hide: (util) => runtime.ext_scratch3_looks.hide.call(runtime.ext_scratch3_looks, null, util),
           
           //Events
-          events_broadcast: (util, msg) => util.startHats("event_whenbroadcastreceived", msg),
+          events_broadcast: (util, msg) => util.startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: msg }),
           events_broadcastandwait: (util, msg) => 0,
   
   
@@ -506,6 +506,10 @@
           thinkForSecs: ref('looks_thinkForSecs'),
           show: ref('looks_show'),
           hide: ref('looks_hide'),
+        });
+        // Category: events
+        lua.global.set('events', {
+          broadcast: ref('events_broadcast'),
         });
         // Category: control
         lua.global.set('control', {
