@@ -115,4 +115,4 @@
 }
 
     Scratch.extensions.register(new extension())
-})(Scratch)
+})(Scratch);
