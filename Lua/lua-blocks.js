@@ -8,6 +8,7 @@
  * @comment With help from.. alot of people (check the code)
  * Do not remove this comment
  */
+// @ts-ignore
 (async function (Scratch) {
     if (!Scratch.extensions.unsandboxed) {
       throw new Error('"Dragonian Lua" must be ran unsandboxed.');
@@ -21,6 +22,7 @@
     // @todo Find a way to embed this so it works offline
     //       and prevent global leakage
     function waitFinish(script) {
+      // @ts-ignore
       return new Promise((resolve) => {
         script.addEventListener('load', resolve);
       });
@@ -30,6 +32,7 @@
     document.head.appendChild(script);
     await waitFinish(script);
   
+    // @ts-ignore
     const engine = "Turbowarp";
   
     // @todo Find a way to embed this so it works offline
@@ -41,6 +44,7 @@
     let lua = await factory.createEngine();
     luaon = true;
   
+    // @ts-ignore
     const pfuncargs = Symbol("pfuncargs");
 
     // Utility functions
@@ -68,6 +72,7 @@
       listObject = target.lookupVariableByNameAndType(name, type);
       if (listObject) return listObject;
     };
+
     function _parseJSON(obj) {
       if (Array.isArray(obj)) return {};
       if (typeof obj === 'object') return obj;
@@ -82,6 +87,7 @@
     }
   
     // Resetting the lua runtime
+    // @ts-ignore
     async function resetLua() {
       const threads = runtime.threads;
       const oldStatus = [];
@@ -265,6 +271,7 @@
       no_op_6() {}
   
       _extensions() {
+        // @ts-ignore
         const arr = Array.from(vm.extensionManager._loadedExtensions.keys());
         if (typeof arr[0] !== 'string') arr.push('');
         return arr;
@@ -289,6 +296,7 @@
         return (typeof args.VAR === 'number' || luaVar instanceof Error || luaVar == null) ? "" : luaVar;
     }
     
+    // @ts-ignore
     async linkedFunctionCallback(args) {
 
     }
@@ -384,56 +392,104 @@
           looks_thinkForSecs: (util, msg, secs) => runtime.ext_scratch3_looks.thinkforsecs.call(runtime.ext_scratch3_looks, { MESSAGE: msg, SECS: secs }, util),
           looks_show: (util) => runtime.ext_scratch3_looks.show.call(runtime.ext_scratch3_looks, null, util),
           looks_hide: (util) => runtime.ext_scratch3_looks.hide.call(runtime.ext_scratch3_looks, null, util),
+          looks_getCostume: (util, costume) => 0,
+          looks_setCostume: (util, costume) => 0,
+          looks_nextCostume: (util, costume) => 0,
+          looks_lastCostume: (util, costume) => 0,
+          looks_getSize: (util, costume) => 0,
+          looks_setSize: (util, costume) => 0,
+          looks_changeSize: (util, costume) => 0,
+          looks_setEffect: (util, costume) => 0,
+          looks_changeEffect: (util, costume) => 0,
+          looks_effectClear: (util, costume) => 0,
           
           //Events
           events_broadcast: (util, msg) => util.startHats("event_whenbroadcastreceived", { BROADCAST_OPTION: msg }),
+          // @ts-ignore
           events_broadcastandwait: (util, msg) => 0,
   
   
           // Control
+          // @ts-ignore
           control_wait: (_, seconds) => new Promise(resolve => setTimeout(resolve, Cast.toNumber(seconds) * 1000)),
+          // @ts-ignore
           control_clone: (util, spr) => 0,
+          // @ts-ignore
           control_deleteClone: (util) => 0,
   
           //Sensing
+          // @ts-ignore
           sensing_loudness: (util) => 0,
+          // @ts-ignore
           sensing_loud: (util) => 0,
           sensing_mouseX: () => runtime.ioDevices.mouse._scratchX,
           sensing_mouseY: () => runtime.ioDevices.mouse._scratchY,
+          // @ts-ignore
           sensing_mouseDown: (util) => runtime.ioDevices.mouse,
+          // @ts-ignore
           sensing_timer: (util) => 0,
+          // @ts-ignore
           sensing_resettimer: (util) => 0,
+          // @ts-ignore
           sensing_username: (util) => 0,
+          // @ts-ignore
           sensing_current: (util) => 0,
+          // @ts-ignore
           sensing_dayssince2000: (util, datetype) => 0,
+          // @ts-ignore
           sensing_distanceto: (util, sprite) => 0,
+          // @ts-ignore
           sensing_colorIsTouchingColor: (util, colour1, colour2) => 0,
+          // @ts-ignore
           sensing_touchingcolor: (util, color) => 0,
+          // @ts-ignore
           sensing_touchingobject: (util, sprite) => 0,
+          // @ts-ignore
           sensing_keypressed: (util, key) => 0,
+          // @ts-ignore
           sensing_ask: (util) => 0,
+          // @ts-ignore
           sensing_answer: (util) => 0,
   
           //Data
           data_setvar: (util, name, val) => (_getVarObjectFromName(Cast.toString(name), util, '').value = val),
+          // @ts-ignore
           data_getvar: (util, name) => _getVarObjectFromName(Cast.toString(name), '').value,
+          // @ts-ignore
           data_makevar: (util, name) => 0,
+          // @ts-ignore
           data_deletevar: (util, name) => 0,
+          // @ts-ignore
           data_changevar: (util, name, val) => 0,
+          // @ts-ignore
           data_showvar: (util, name) => 0,
+          // @ts-ignore
           data_hidevar: (util, name) => 0,
+          // @ts-ignore
           data_setlist: (util, name, list) => 0,
+          // @ts-ignore
           data_getlist: (util, name) => 0,
+          // @ts-ignore
           data_addtolist: (util, name, value, pos) => 0,
+          // @ts-ignore
           data_removefromlist: (util, name, pos) => 0,
+          // @ts-ignore
           data_clearlist: (util, name) => 0,
+          // @ts-ignore
           data_replacelistitem: (util, name, val, pos) => 0,
+          // @ts-ignore
           data_listitem: (util, name, pos) => 0,
+          // @ts-ignore
           data_listitemnum: (util, name, item) => 0,
+          // @ts-ignore
           data_makelist: (util, name) => 0,
+          // @ts-ignore
           data_deletelist: (util, name) => 0,
+          // @ts-ignore
           data_getvars: (util) => 0,
+          // @ts-ignore
           data_getlists: (util) => 0,
+          // @ts-ignore
           data_listlength: (util, name) => 0,
         };
       }
@@ -441,7 +497,7 @@
       initLuaCommands(util) {
         // Register all the commands for lua.
         util = this._constructFakeUtil(util);
-        // @ts-expect-error I know it "could" be undefined but it wont be
+        // @ts-ignore I know it "could" be undefined but it wont be
         const ref = (fn, fnn) => ((...args) => (this.Functions[fn || fnn](util, ...args)));
         const bindHere = fn => fn.bind(this);
 
@@ -552,6 +608,7 @@
               return new Array(Cast.toNumber(length) || 0);
             },
             from(value) {
+              // @ts-ignore
               return Array.from(value);
             },
             fromIndexed(object) {
@@ -561,6 +618,7 @@
             },
             toIndexed(array) {
               if (!Array.isArray(array)) return {};
+              // @ts-ignore
               return Object.fromEntries(array.map((v, i) => [i, v]))
             },
             isArray(value) {
@@ -572,6 +630,7 @@
               return Object.create(prototype || {});
             },
             assign(a, b) {
+              // @ts-ignore
               return Object.assign(a, b);
             },
             new() {
@@ -628,8 +687,10 @@
                 await window._luaExtensionLoader(Scratch);
               })(Scratch);
           `)}`,
+          // @ts-ignore
           async _loadHack(url) {
             const gsm = vm.extensionManager.securityManager.getSandboxMode;
+            // @ts-ignore
             vm.extensionManager.securityManager.getSandboxMode = () => Promise.resolve('unsandboxed');
             try {
               await vm.extensionManager.loadExtensionURL(Cast.toString(url));
