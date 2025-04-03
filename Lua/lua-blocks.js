@@ -672,4 +672,3 @@
     Scratch.extensions.register((runtime.ext_secret_dragonianlua = new extension()));
     // @ts-ignore Don't care!
   })(Scratch);
-    // Bepis -J.R.T.
