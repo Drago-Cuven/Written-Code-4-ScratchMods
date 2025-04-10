@@ -1,8 +1,8 @@
-// Name: Lua
-// ID: dragonianlua
-// Description: acts as a template for people to make their own extensions.
+// Name: Cappuccino
+// ID: CECappuccino
+// Description: Write Cappuccino code and run it in Turbowarp.
 // By: Drago Cuven <https://github.com/Drago-Cuven>
-// By: 0znzw <>
+// By: 0znzw <https://scratch.mit.edu/users/0znzw/>
 // By: ObviousAlexC <https://scratch.mit.edu/users/pinksheep2917/>
 // License: MIT
 
@@ -15,7 +15,7 @@
         getInfo() {
             return {
                 id: 'CECappuccino',
-                name: 'Cappuccino Scripting',
+                name: 'Cappuccino',
                 blocks: [
                     {
                         opcode: 'runCode_Command',
