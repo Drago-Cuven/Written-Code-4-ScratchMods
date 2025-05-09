@@ -151,7 +151,7 @@
             {
               opcode: 'disableEnableInit',
               blockType: BlockType.COMMAND,
-              text: 'perform scratch-runtime initilization on run: [INIT]',
+              text: 'enable scratch commands for lua? [INIT]',
               arguments: {
                 INIT: {
                   type: ArgumentType.BOOLEAN,
