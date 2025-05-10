@@ -37,9 +37,17 @@
     });
   }
   
-
-
+  // @ts-ignore
+  const { PyPy } = await import('https://cdn.jsdelivr.net/gh/pypyjs/pypyjs-release@0.4.0/lib/pypyjs.vm.js');
   let pyOn = true;
+  async function enablePython() {
+    if (pyOn) {
+      return;
+    }
+    pyOn = true;
+    let python = new PyPy(); 
+    await python.ready;
+  }
 
   class extension {
     getInfo() {

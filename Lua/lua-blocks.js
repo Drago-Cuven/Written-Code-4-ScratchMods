@@ -37,6 +37,7 @@
   
     // @todo Find a way to embed this so it works offline
     //       and prevent global leakage
+    // just use the dataurl when the extension is finished
     // @ts-ignore I know it exists so shut it TS
     const {LuaFactory} = await import('https://cdn.jsdelivr.net/npm/wasmoon/+esm');
     const factory = new LuaFactory();
