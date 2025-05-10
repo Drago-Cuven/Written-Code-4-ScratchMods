@@ -166,7 +166,7 @@
                 ACTION: {
                   type: ArgumentType.STRING,
                   menu: `luaVMdo`,
-                  defaultValue: `Stop`,
+                  defaultValue: `stop`,
                 },
               },
               func: 'luaVMdo',
@@ -342,7 +342,7 @@
             typeof item === 'number' ? item.toString() : item
           );
 
-          if (args.TYPE === "stringified") {
+          if (args.TYPE = "stringified") {
             return CAI(setargs);
           } else {
             return setargs;
